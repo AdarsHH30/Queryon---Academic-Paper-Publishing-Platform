@@ -1,5 +1,5 @@
 
-```markdown
+
 # Queryon - Academic Paper Publishing Platform
 
 ## Description
@@ -48,4 +48,4 @@ We welcome contributions! To contribute:
 4. Push to the branch (`git push origin feature-branch`).
 5. Submit a pull request.
 
-```
+
