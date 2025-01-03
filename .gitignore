@@ -1,0 +1,30 @@
+# Virtual environment
+myenv/
+
+# Environment files
+.env
+
+migrations/
+# Python compiled files
+__pycache__/
+*.py[cod]
+
+# Local database
+db.sqlite3
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+
+# Editor-specific files
+.vscode/
+.idea/
+
+# Backup files
+*.bak
+*.swp
