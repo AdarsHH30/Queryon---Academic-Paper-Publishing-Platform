@@ -1,1 +1,1 @@
-# Queryon---Academic-Paper-Publishing-Platform
+# Queryon-Academic-Paper-Publishing-Platform
