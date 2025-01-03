@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Papers</title>
+    <style>
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .login-btn {
+            padding: 12px 24px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            color: #1a1a1a;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .login-btn:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.1);
+        }
+
+        .filters {
+            display: flex;
+            gap: 16px;
+            margin: 24px 0;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            animation: fadeInUp 0.6s ease-out 0.4s backwards;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        select,
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+        }
+
+        select:focus,
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 2px 12px rgba(33, 150, 243, 0.1);
+        }
+
+        .paper-card {
+            padding: 24px;
+            margin: 20px 0;
+            background-color: #ffffff;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            animation: slideInFromRight 0.5s ease-out backwards;
+        }
+
+        .paper-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .paper-title {
+            color: #2196f3;
+            font-size: 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .paper-title:hover {
+            color: #1976d2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            background: #ffffff;
+            margin: 50px auto;
+            padding: 32px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: scale(0.98) translateY(-10px);
+        }
+
+        .modal.active .modal-content {
+            animation: modalFadeIn 0.4s ease-out forwards;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 24px;
+            top: 24px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f5f5f5;
+        }
+
+        .close-modal:hover {
+            background: #eeeeee;
+            transform: rotate(90deg);
+        }
+
+        .download-btn {
+            background: #2196f3;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+        }
+
+        .download-btn:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(33, 150, 243, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+            animation: fadeInUp 0.4s ease-out;
+            color: #666;
+        }
+
+        .paper-authors {
+            color: #666;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .paper-abstract {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .citation-metrics {
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/login/" class="login-btn">Login</a>
+    </div>
+
+    <input type="text" class="search-bar" placeholder="Search research papers...">
+
+    <div class="filters">
+        <div class="filter-group">
+            <select id="department-filter">
+                <option value="">All Departments</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select id="region-filter">
+                <option value="">All Regions</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select id="paper-type-filter">
+                <option value="">All Paper Types</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <input type="date" id="date-filter">
+        </div>
+    </div>
+
+    <div id="papers-container"></div>
+    <div class="loading">Loading papers...</div>
+
+    <div id="paper-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Previous JavaScript code remains the same
+            const searchBar = document.querySelector('.search-bar');
+            const container = document.getElementById('papers-container');
+            const loading = document.querySelector('.loading');
+            const departmentFilter = document.getElementById('department-filter');
+            const regionFilter = document.getElementById('region-filter');
+            const paperTypeFilter = document.getElementById('paper-type-filter');
+            const dateFilter = document.getElementById('date-filter');
+            const modal = document.getElementById('paper-modal');
+            const modalContent = document.getElementById('modal-content');
+
+            let allPapers = [];
+
+            function createPaperCard(paper, index) {
+                const delay = index * 0.1;
+                return `
+                    <div class="paper-card" style="animation-delay: ${delay}s">
+                        <div class="paper-title" onclick="openModal(${JSON.stringify(paper).replace(/"/g, '&quot;')})">${paper.paper_title}</div>
+                        <div class="paper-authors">${paper.author_name || 'Unknown Authors'}</div>
+                        <div class="paper-abstract">${paper.abstract}</div>
+                        <div class="citation-metrics">
+                            date: ${paper.date || 'N/A'} | region: ${paper.region || 'N/A'} | 
+                            department: ${paper.department || 'N/A'} | type: ${paper.paper_type || 'N/A'}
+                        </div>
+                    </div>
+                `;
+            }
+
+            window.openModal = function(paper) {
+                modalContent.innerHTML = `
+                    <h2>${paper.paper_title}</h2>
+                    <div class="paper-authors">${paper.author_name || 'Unknown Authors'}</div>
+                    <div class="paper-abstract">${paper.abstract}</div>
+                    <div class="citation-metrics">
+                        date: ${paper.date || 'N/A'} | region: ${paper.region || 'N/A'} | 
+                        department: ${paper.department || 'N/A'} | type: ${paper.paper_type || 'N/A'}
+                    </div>
+                    ${paper.file_url ? `<button class="download-btn" onclick="handlePdfDownload('${paper.file_url}', '${paper.paper_title.replace(/'/g, "\\'")}')">Download PDF</button>` : ''}
+                `;
+                modal.style.display = 'block';
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                    modal.classList.add('active');
+                }, 10);
+            };
+
+            window.handlePdfDownload = async function(pdfUrl, fileName) {
+                try {
+                    const response = await fetch(pdfUrl);
+                    if (!response.ok) throw new Error('PDF download failed');
+
+                    const blob = await response.blob();
+                    const blobUrl = window.URL.createObjectURL(blob);
+
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = blobUrl;
+                    downloadLink.download = fileName.replace(/[^a-zA-Z0-9.-]/g, '_') + '.pdf';
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+
+                    window.URL.revokeObjectURL(blobUrl);
+                } catch (error) {
+                    console.error('Error downloading PDF:', error);
+                    alert('Error downloading PDF. Please try again.');
+                }
+            };
+
+            function updateFilters(papers) {
+                const departments = [...new Set(papers.map(p => p.department).filter(Boolean))];
+                const regions = [...new Set(papers.map(p => p.region).filter(Boolean))];
+                const paperTypes = [...new Set(papers.map(p => p.paper_type).filter(Boolean))];
+
+                departmentFilter.innerHTML = '<option value="">All Departments</option>' + 
+                    departments.map(dept => `<option value="${dept}">${dept}</option>`).join('');
+
+                regionFilter.innerHTML = '<option value="">All Regions</option>' + 
+                    regions.map(region => `<option value="${region}">${region}</option>`).join('');
+
+                paperTypeFilter.innerHTML = '<option value="">All Paper Types</option>' + 
+                    paperTypes.map(type => `<option value="${type}">${type}</option>`).join('');
+            }
+
+            function filterPapers() {
+                const searchTerm = searchBar.value.toLowerCase();
+                const department = departmentFilter.value;
+                const region = regionFilter.value;
+                const paperType = paperTypeFilter.value;
+                const date = dateFilter.value;
+
+                const filtered = allPapers.filter(paper => {
+                    const matchesSearch = (paper.paper_title?.toLowerCase().includes(searchTerm) || 
+                                        paper.abstract?.toLowerCase().includes(searchTerm)) ?? false;
+                    const matchesDepartment = !department || paper.department === department;
+                    const matchesRegion = !region || paper.region === region;
+                    const matchesPaperType = !paperType || paper.paper_type === paperType;
+                    const matchesDate = !date || paper.date === date;
+
+                    return matchesSearch && matchesDepartment && matchesRegion && matchesPaperType && matchesDate;
+                });
+
+                container.innerHTML = filtered.map((paper, index) => createPaperCard(paper, index)).join('');
+            }
+
+            async function fetchPapers() {
+                try {
+                    loading.style.display = 'block';
+                    const response = await fetch('/papers/', {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    const data = await response.json();
+
+                    if (data.message === 'Success') {
+                        allPapers = data.data;
+                        updateFilters(allPapers);
+                        filterPapers();
+                    }
+                } catch (error) {
+                    console.error('Error fetching papers:', error);
+                    container.innerHTML = '<p>Error loading papers. Please try again.</p>';
+                } finally {
+                    loading.style.display = 'none';
+                }
+            }
+
+            // Event listeners
+            // Event listeners
+            searchBar.addEventListener('input', filterPapers);
+            departmentFilter.addEventListener('change', filterPapers);
+            regionFilter.addEventListener('change', filterPapers);
+            paperTypeFilter.addEventListener('change', filterPapers);
+            dateFilter.addEventListener('change', filterPapers);
+
+            // Modal close handlers with smooth animations
+            document.querySelector('.close-modal').onclick = () => {
+                modal.style.opacity = '0';
+                modal.classList.remove('active');
+                modal.querySelector('.modal-content').style.transform = 'scale(0.98) translateY(-10px)';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modal.querySelector('.modal-content').style.transform = '';
+                }, 300);
+            };
+
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.opacity = '0';
+                    modal.classList.remove('active');
+                    modal.querySelector('.modal-content').style.transform = 'scale(0.98) translateY(-10px)';
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        modal.querySelector('.modal-content').style.transform = '';
+                    }, 300);
+                }
+            };
+
+            // Add escape key handler for modal
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    document.querySelector('.close-modal').click();
+                }
+            });
+
+            // Add smooth scroll restoration
+            window.history.scrollRestoration = 'smooth';
+
+            // Add intersection observer for lazy loading animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const paperObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        paperObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Function to observe new paper cards
+            function observeNewPapers() {
+                const papers = document.querySelectorAll('.paper-card');
+                papers.forEach(paper => {
+                    paper.style.opacity = '0';
+                    paper.style.transform = 'translateY(20px)';
+                    paperObserver.observe(paper);
+                });
+            }
+
+            // Add observer after filtering
+            const originalFilterPapers = filterPapers;
+            filterPapers = function() {
+                originalFilterPapers();
+                observeNewPapers();
+            };
+
+            // Initial load with loading animation
+            fetchPapers().then(() => {
+                observeNewPapers();
+            });
+        });
+    </script>
+</body>
+</html>

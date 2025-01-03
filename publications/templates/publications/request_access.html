@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Access</title>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 82, 204, 0.1);
+      max-width: 500px;
+      width: 100%;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #0052CC;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .form-container h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #0052CC, #4C9AFF);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #0052CC;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #E8F0FF;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+      color: #0052CC;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #4C9AFF;
+      box-shadow: 0 0 0 3px rgba(76, 154, 255, 0.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      background: linear-gradient(90deg, #0052CC, #4C9AFF);
+      color: white;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.2) 50%,
+        rgba(255,255,255,0) 100%
+      );
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 82, 204, 0.2);
+    }
+
+    .success-message {
+      text-align: center;
+      color: #0052CC;
+      margin-top: 1rem;
+      animation: fadeIn 0.6s ease-out;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Request Access</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="institution">Institution</label>
+        <input type="text" id="institution" name="institution" placeholder="Enter your institution name" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="" disabled selected>Select your role</option>
+          <option value="faculty">Faculty</option>
+          <option value="researcher">Researcher</option>
+          <option value="student">Student</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="purpose">Purpose of Access</label>
+        <textarea id="purpose" name="purpose" placeholder="Explain your purpose" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Submit Request</button>
+    </form>
+    {% if success %}
+    <p class="success-message">Request submitted successfully!</p>
+    {% endif %}
+  </div>
+</body>
+</html>
