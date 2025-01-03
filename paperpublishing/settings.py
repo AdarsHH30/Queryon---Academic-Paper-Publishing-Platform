@@ -26,9 +26,9 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SECRET_KEY = 'django-insecure-ns76ykf41ia=mrh6z&tv_a94jrv2-t78!4%toi99sm%^!u_var'
 
 # SECURITY WARNING: don't run with debug turned on in production!e
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
